@@ -13,6 +13,6 @@ if __name__ == "__main__":
         { "$group": {"_id": "", "recording_id": {"$first": "$recordings.recording_id"},
                       "avg_rhythmicality": {"$avg": "$recordings.rhythmicality"}} },
     ])
-    with open('output.txt', 'w') as f:
+    with open('output.txt', 'w', encoding="utf-8") as f:
         for writer in result:
             f.write(str(writer) + '\n')
