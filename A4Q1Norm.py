@@ -11,5 +11,6 @@ if __name__ == "__main__":
                       "name":{"$first": "$name"},
                         "num_recordings": { "$sum": { "$size": "$recordings" } } } },
     ])
-    for writer in result:
-        print(writer)
+    with open('output.txt', 'w') as f:
+        for writer in result:
+            f.write(str(writer) + '\n')

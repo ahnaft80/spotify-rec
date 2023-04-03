@@ -12,5 +12,6 @@ if __name__ == "__main__":
         { "$group": {"_id": "", "recording_id": {"$first": "$recording_id"},
                       "avg_rhythmicality": {"$avg": "$rhythmicality"}} },
     ])
-    for writer in result:
-        print(writer)
+    with open('output.txt', 'w') as f:
+        for writer in result:
+            f.write(str(writer) + '\n')

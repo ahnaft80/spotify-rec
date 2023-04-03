@@ -5,13 +5,10 @@ if __name__ == "__main__":
     db = client["A4dbEmbedded"]
 
     collection = db["SongwritersRecordings"]
-    
     result = collection.aggregate([
         { "$unwind": "$recordings"},
-        { "$match": {
-            "recordings.recording_id": { "$regex": "^70" } } }, 
-        { "$group": {"_id": "", "recording_id": {"$first": "$recordings.recording_id"},
-                      "avg_rhythmicality": {"$avg": "$recordings.rhythmicality"}} },
+        { "$group": {"_id": "$_id", "songwriter_id": {"$first": "$songwriter_id"},
+                        "total_length": { "$sum": "$recordings.length" } } },
     ])
     with open('output.txt', 'w') as f:
         for writer in result:
