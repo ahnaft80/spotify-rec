@@ -1,21 +1,20 @@
 from pymongo import MongoClient
 import sys
 
-def main(argv):    
+def main(argv):
     # get port from argument and connect to server
     serverport = argv[0]
     client = MongoClient("mongodb://localhost:" + serverport)
+    # use embedded db
+    db = client["A4dbEmbedded"]
+    collection = db["SongwritersRecordings"]
 
-    # use songwriters collection from normalized db, other collection will not be required
-    db = client["A4dbNorm"]
-    songwriters_collection = db["songwriters"]
 
     # group all songwriters by id and sum the number of their recordings
     # filter to only those with 1 or more recording
-    result = songwriters_collection.aggregate([
+    result = collection.aggregate([
         { "$group": 
-            {
-                "_id": "$_id",
+            {   "_id": "$_id",
                 "songwriter_id": {"$first": "$songwriter_id"},
                 "name":{"$first": "$name"},
                 "num_recordings": { "$sum": { "$size": "$recordings" } } 
@@ -27,7 +26,8 @@ def main(argv):
             }
         },
     ])
-    
+
+
     # print each item in the query result
     for item in result:
         print (item)
@@ -40,6 +40,8 @@ def main(argv):
             f.write(str(writer) + '\n')
     '''
     client.close()
-    
+
+
 if __name__ == "__main__":
+    # call main with port argument
     main(sys.argv[1:])
