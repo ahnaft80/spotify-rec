@@ -7,9 +7,9 @@ if __name__ == "__main__":
     collection = db["SongwritersRecordings"]
     result = collection.aggregate([
         { "$unwind": "$recordings"},
-        { "$group": {"_id": "$_id", "songwriter_id": {"$first": "$songwriter_id"},
-                        "total_length": { "$sum": "$recordings.length" } } },
+        { "$group": {"_id": "$songwriter_id", "total_length": { "$sum": "$recordings.length" }, "songwriter_id": {"$first": "$songwriter_id"},
+                         } },
     ])
-    with open('output.txt', 'w') as f:
+    with open('output.txt', 'w', encoding="utf-8") as f:
         for writer in result:
             f.write(str(writer) + '\n')
