@@ -1,26 +1,31 @@
 from pymongo import MongoClient
 import json
+from bson.json_util import loads, dumps
 
 if __name__ == "__main__":
+    # read in the json files
     with open('recordings.json', 'rb') as f1:
         recordings = json.load(f1)
 
     with open('songwriters.json', 'rb') as f2:
         songwriters = json.load(f2)
 
+    # connect to the mongo client
     client = MongoClient()
     db = client["A4dbEmbedded"]
 
+    # create SongwritersRecordings collection
     collection = db["SongwritersRecordings"]
     collection.delete_many({})  # delete all previous entries in the collection
 
+    # create a temporary recordings collection to help create the main collection
     recordings_collection = db["recordings"]
     recordings_collection.delete_many({})
     for recording in recordings:
-        recording.pop("_id")
+        recording = loads(dumps(recording))
         ret_record = recordings_collection.insert_one(recording)
 
-    ''' The loop do the following things: 
+    ''' The loop does the following things: 
         1. For each songwriter, get the list of recording ids
         2. For each recording id, get the recording from the recordings collection
         3. Remove the songwriter ids and _id from the recording
@@ -28,8 +33,8 @@ if __name__ == "__main__":
         5. Replace the list of recording ids with the list of recordings
         6. Insert the completed songwriter into the SongwritersRecordings collection
     '''
-
     for i, songwriter in enumerate(songwriters):
+        songwriter = loads(dumps(songwriter))
         recordings = []
         for recording_id in songwriter["recordings"]:
             recording = recordings_collection.find({"recording_id": recording_id})
@@ -43,4 +48,6 @@ if __name__ == "__main__":
         songwriter.pop("_id")
         # if i == 0: print(songwriter) # uncomment to see the first songwriter
         collection.insert_one(songwriter)
+
+    db["recordings"].drop() # recordings database no longer needed
     
