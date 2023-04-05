@@ -5,7 +5,6 @@ if __name__ == "__main__":
     db = client["A4dbNorm"]
 
     songwriters_collection = db["songwriters"]
-    recordings_collection = db["recordings"]
 
 
     result = songwriters_collection.aggregate([
