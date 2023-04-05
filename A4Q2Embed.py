@@ -1,30 +1,28 @@
 from pymongo import MongoClient
 import sys
 
-
-def main(argv):    
+def main(argv):
     # get port from argument and connect to server
     serverport = argv[0]
     client = MongoClient("mongodb://localhost:" + serverport)
-
-    # use recordings collection from normalized db, other collection will not be required
-    db = client["A4dbNorm"]
-    recordings_collection = db["recordings"]
-
+    # use embedded db
+    db = client["A4dbEmbedded"]
+    collection = db["SongwritersRecordings"]
+    
+    # unwind recordings to allow for filtering
     # filter to only recordings whose recording id begins with 70
     # calculate average for the remaining group
-    result = recordings_collection.aggregate([
+    result = collection.aggregate([
+        { "$unwind": "$recordings"},
         { "$match": {
-            "recording_id": { "$regex": "^70" } } }, 
-
+            "recordings.recording_id": { "$regex": "^70" } } },
+         
         { "$group": 
-            {
-            "_id": "",
-            "avg_rhythmicality": {"$avg": "$rhythmicality"}
-            } 
-        },
+            {"_id": "",
+            "avg_rhythmicality": {"$avg": "$recordings.rhythmicality"}
+            } },
     ])
-    
+
     # print each item in the query result
     for item in result:
         print (item)
@@ -37,7 +35,6 @@ def main(argv):
             f.write(str(writer) + '\n')
     '''
     client.close()
-
 
 if __name__ == "__main__":
     # call main with port argument

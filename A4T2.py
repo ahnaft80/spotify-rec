@@ -1,8 +1,9 @@
 from pymongo import MongoClient
 import json
 from bson.json_util import loads, dumps
+import sys
 
-if __name__ == "__main__":
+def main(argv):
     # read in the json files
     with open('recordings.json', 'rb') as f1:
         recordings = json.load(f1)
@@ -10,8 +11,9 @@ if __name__ == "__main__":
     with open('songwriters.json', 'rb') as f2:
         songwriters = json.load(f2)
 
-    # connect to the mongo client
-    client = MongoClient()
+    # get port from argument and connect to server
+    serverport = argv[0]
+    client = MongoClient("mongodb://localhost:" + serverport)
     db = client["A4dbEmbedded"]
 
     # create SongwritersRecordings collection
@@ -22,7 +24,7 @@ if __name__ == "__main__":
     recordings_collection = db["recordings"]
     recordings_collection.delete_many({})
     for recording in recordings:
-        recording = loads(dumps(recording))
+        recording = loads(dumps(recording))     # fix formatting
         ret_record = recordings_collection.insert_one(recording)
 
     ''' The loop does the following things: 
@@ -34,7 +36,7 @@ if __name__ == "__main__":
         6. Insert the completed songwriter into the SongwritersRecordings collection
     '''
     for i, songwriter in enumerate(songwriters):
-        songwriter = loads(dumps(songwriter))
+        songwriter = loads(dumps(songwriter))       # fix formatting
         recordings = []
         for recording_id in songwriter["recordings"]:
             recording = recordings_collection.find({"recording_id": recording_id})
@@ -51,3 +53,8 @@ if __name__ == "__main__":
 
     db["recordings"].drop() # recordings database no longer needed
     
+    client.close()
+
+if __name__ == "__main__":
+    # call main with port argument
+    main(sys.argv[1:])
