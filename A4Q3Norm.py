@@ -6,7 +6,9 @@ if __name__ == "__main__":
 
     songwriters_collection = db["songwriters"]
 
-
+    # match each songwriter with their recordings 
+    # unwind the recordings so that each songwriter is associated with just 1
+    # group by items by songwriter id summing all recording length fields, do id by songwriter id
     result = songwriters_collection.aggregate([
         
         {"$lookup":{
@@ -18,8 +20,8 @@ if __name__ == "__main__":
         },
         {"$unwind": "$recordings"},
         { "$group": 
-            {"_id": "$_id", "songwriter_id": {"$first": "$songwriter_id"},
-            "total_length": { "$sum": "$recordings.length" } } 
+            {"_id": "$songwriter_id", "total_length": { "$sum": "$recordings.length" }, "songwriter_id": {"$first": "$songwriter_id"},
+             } 
         },
 
 

@@ -1,5 +1,4 @@
 from pymongo import MongoClient
-from bson import ObjectId
 from datetime import datetime
 
 
@@ -10,8 +9,13 @@ if __name__ == "__main__":
 
     recordings_collection = db["recordings"]
 
+    # get date to compare to
     date = datetime(1950, 1, 1)
 
+    # get all recordings which are not before 1950
+    # match them with the appropriate songwriter
+    # filter to only songwriter name, recording name, and recording issue date fields
+    # unwind songwriter name so it does not appear as a list (songs with multiple songwriters will appear twice)
     result = recordings_collection.aggregate([
         {"$match":
             {
