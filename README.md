@@ -1,44 +1,43 @@
-# spotify-rec
+# **Spotify Data Analysis and Recommendation System**
 
 ---
 
-# **Spotify Data Analysis and Recommendation System**
-
 ## **Overview**
 
-This project analyzes Spotify listening data to uncover insights into personal listening habits and preferences. The project also builds a personalized song recommendation system using audio features, providing a custom playlist tailored to individual taste.
+This project analyzes Spotify listening data to uncover insights into personal listening habits and preferences. Additionally, it builds a personalized song recommendation system using audio features, culminating in an automated process to create a custom Spotify playlist.
 
-Spotify's default recommendation system inspired this project, but dissatisfaction with its suggestions led to the development of a data-driven alternative using personalized listening data combined with third-party datasets.
+The motivation for this project stemmed from dissatisfaction with Spotify's default recommendation system. This inspired the creation of a data-driven alternative, leveraging personal listening data and third-party datasets to provide tailored recommendations.
 
 ---
 
 ## **Features**
 
 1. **Exploratory Data Analysis (EDA):**
-   - Analyzed listening trends over time.
-   - Visualized top tracks, artists, and genres by listening time.
-   - Evaluated diversity in listening habits with metrics like Gini Coefficient.
+   - Visualized listening trends over time (years, days, and hours).
+   - Analyzed top tracks, artists, and genres based on listening time.
+   - Measured listening diversity with metrics like the Gini Coefficient.
 
 2. **Personalized Recommendations:**
    - Identified songs not previously listened to using cosine similarity on audio features.
-   - Recommended new tracks based on similarity to listening history.
+   - Recommended tracks that align closely with personal listening preferences.
 
-3. **Dataset Integration:**
-   - Combined Spotify listening history with third-party datasets containing detailed audio features and metadata.
+3. **Spotify Playlist Creation:**
+   - Transformed recommendations into a Spotify playlist using the Spotify API.
+   - Automated playlist creation directly from the recommendation output.
 
-4. **Interactive Visualizations:**
-   - Provided insights using charts and plots to make data exploration intuitive.
+4. **Dataset Integration:**
+   - Combined personal Spotify listening history with third-party datasets containing audio features and metadata.
 
 5. **Data Cleaning and Transformation:**
-   - Handled missing values and standardized data for consistency.
-   - Deduplicated and normalized track names and artist names.
+   - Standardized and deduplicated track and artist names.
+   - Handled missing values for consistent data analysis.
 
 ---
 
 ## **Dataset Sources**
 
 1. **Personal Spotify Listening Data:**
-   - Exported directly from Spotify (via [Spotify Wrapped](https://www.spotify.com/us/wrapped/) or [Spotify API](https://developer.spotify.com/documentation/web-api/)).
+   - Exported directly from Spotify via [Spotify Wrapped](https://www.spotify.com/us/wrapped/) or the [Spotify API](https://developer.spotify.com/documentation/web-api/).
 
 2. **Third-Party Datasets:**
    - [Spotify 12M Songs Dataset](https://www.kaggle.com/rodolfofigueroa/spotify-12m-songs)
@@ -58,6 +57,7 @@ Spotify's default recommendation system inspired this project, but dissatisfacti
   - Matplotlib
   - Seaborn
   - Scikit-learn
+  - Spotipy
   - TfidfVectorizer
   - Cosine Similarity
 - **Tools:**
@@ -69,23 +69,27 @@ Spotify's default recommendation system inspired this project, but dissatisfacti
 ## **Project Workflow**
 
 1. **Data Collection:**
-   - Exported Spotify listening history and integrated with third-party datasets for audio features.
+   - Exported Spotify listening history and merged it with third-party datasets for additional audio features.
 
 2. **Data Cleaning and Preprocessing:**
    - Handled missing values and standardized metadata.
-   - Merged multiple datasets and removed duplicates.
+   - Removed duplicate entries for accurate analysis.
 
 3. **Exploratory Data Analysis:**
-   - Visualized listening trends over years, days, and hours.
-   - Analyzed the contribution of top tracks and artists to total listening time.
+   - Visualized listening trends over time and evaluated diversity in preferences.
+   - Explored the contribution of top tracks and artists to total listening time.
 
 4. **Building the Recommendation System:**
    - Used cosine similarity on normalized audio features.
-   - Recommended unlistened tracks closest in similarity to listening history.
+   - Recommended unlistened tracks closest in similarity to personal listening history.
 
-5. **Final Output:**
-   - Created and saved a personalized playlist (`personalized_recommendations.csv`).
-   - Delivered insights into listening preferences via visualizations and metrics.
+5. **Playlist Creation:**
+   - Automated the creation of a Spotify playlist from recommended tracks.
+   - Used the Spotify API to search for tracks and add them to a playlist.
+
+6. **Final Output:**
+   - A CSV file (`personalized_recommendations.csv`) with recommended tracks.
+   - A Spotify playlist reflecting the generated recommendations.
 
 ---
 
@@ -110,48 +114,57 @@ Spotify's default recommendation system inspired this project, but dissatisfacti
    - Replace the example datasets with your Spotify listening data (CSV files).
    - Ensure your data follows the required format.
 
-5. **View Results:**
+5. **Create a Spotify Playlist:**
+   - Ensure you have your Spotify Developer credentials (client ID, client secret, and redirect URI).
+   - Run the `create_spotify_playlist.py` script to generate a playlist from the recommendations:
+     ```bash
+     python create_spotify_playlist.py
+     ```
+   - Log in when prompted to authorize Spotify access.
+
+6. **View Results:**
    - Explore the EDA visualizations and generated insights.
-   - Check your personalized song recommendations.
+   - Enjoy your personalized Spotify playlist.
 
 ---
 
 ## **Outputs**
 
-- **Data Visualizations:**
-  - Charts displaying top tracks, artists, and listening trends.
-  - Gini Coefficient and cumulative percentage plots showing diversity in listening habits.
+1. **Data Visualizations:**
+   - Charts displaying top tracks, artists, and listening trends.
+   - Gini Coefficient and cumulative percentage plots to evaluate listening diversity.
 
-- **Recommendations:**
-  - A CSV file (`personalized_recommendations.csv`) containing 20 tracks personalized for you.
+2. **Recommendations:**
+   - A CSV file (`personalized_recommendations.csv`) containing 20 tracks personalized to your listening habits.
+
+3. **Spotify Playlist:**
+   - An automatically created playlist in your Spotify account, titled **"Personalized Playlist"**.
 
 ---
 
 ## **Future Work**
 
 1. **Dynamic Playlists:**
-   - Incorporate real-time updates to generate new recommendations based on evolving tastes.
+   - Generate updated recommendations based on real-time listening data.
 
 2. **Advanced Models:**
-   - Explore deep learning approaches like neural collaborative filtering for recommendations.
+   - Investigate deep learning methods like neural collaborative filtering for more precise recommendations.
 
 3. **Genre Analysis:**
-   - Include detailed genre-based analysis and insights.
+   - Provide detailed genre-based insights and recommendations.
 
 4. **User Clustering:**
-   - Group similar users based on listening data for collaborative recommendations.
+   - Group users with similar listening patterns for collaborative recommendations.
 
 ---
 
 ## **Acknowledgments**
 
 - Thanks to [Spotify](https://www.spotify.com) for inspiring this project.
-- Gratitude to the Kaggle contributors for providing detailed datasets.
+- Gratitude to Kaggle contributors for providing detailed datasets.
 
 ---
 
 ## **License**
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
-
----
