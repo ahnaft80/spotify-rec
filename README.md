@@ -1,5 +1,7 @@
 # **Spotify Data Analysis and Recommendation System**
 
+![Project Cover](img/spotify-banner.jpeg)
+
 ---
 
 ## **Overview**
