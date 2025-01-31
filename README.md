@@ -20,8 +20,10 @@ The motivation for this project stemmed from dissatisfaction with Spotify's defa
    - Measured listening diversity with metrics like the Gini Coefficient.
 
 2. **Personalized Recommendations:**
-   - Identified songs not previously listened to using cosine similarity on audio features.
-   - Recommended tracks that align closely with personal listening preferences.
+   - Two recommendation strategies:
+     - `EDA_cosine_rec.ipynb`: A cosine similarity-based recommendation approach using audio features.
+     - `cluster_rec.ipynb`: A clustering-based approach that segments listening history and recommends songs based on dominant clusters.
+   - Ensured diverse recommendations by limiting repeated artists and adding weighted randomness.
 
 3. **Spotify Playlist Creation:**
    - Transformed recommendations into a Spotify playlist using the Spotify API.
@@ -70,53 +72,21 @@ The motivation for this project stemmed from dissatisfaction with Spotify's defa
 
 ## **Project Workflow**
 
-1. **Data Collection:**
-   - Exported Spotify listening history and merged it with third-party datasets for additional audio features.
-
-2. **Data Cleaning and Preprocessing:**
-   - Handled missing values and standardized metadata.
-   - Removed duplicate entries for accurate analysis.
-
-3. **Exploratory Data Analysis:**
-   - Visualized listening trends over time and evaluated diversity in preferences.
-   - Explored the contribution of top tracks and artists to total listening time.
-
-4. **Building the Recommendation System:**
-   - Used cosine similarity on normalized audio features.
-   - Recommended unlistened tracks closest in similarity to personal listening history.
-
-5. **Playlist Creation:**
-   - Automated the creation of a Spotify playlist from recommended tracks.
-   - Used the Spotify API to search for tracks and add them to a playlist.
-
-6. **Final Output:**
-   - A CSV file (`personalized_recommendations.csv`) with recommended tracks.
-   - A Spotify playlist reflecting the generated recommendations.
-
----
-
-## **Usage**
-
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/spotify-data-analysis.git
-   cd spotify-data-analysis
+   git clone https://github.com/ahnaft80/spotify-rec.git
+   cd spotify-rec
    ```
 
-2. **Install Dependencies:**
-   Install required Python libraries using pip:
-   ```bash
-   pip install -r requirements.txt
-   ```
+2. **Run the Jupyter Notebook:**
+   - Open `EDA_cosine_rec.ipynb` or `cluster_rec.ipynb` in Google Colab or Jupyter Notebook.
+   - Execute the notebook cells to process the data and generate recommendations.
 
-3. **Run the Project:**
-   Execute the Jupyter Notebook or Python scripts in your preferred IDE or Google Colab.
+3. **Generate Personalized Playlist File:**
+   - After running the recommendation notebook, a CSV file named `personalized_playlist.csv` will be created.
+   - Download this file to use for playlist creation.
 
-4. **Input Your Data:**
-   - Replace the example datasets with your Spotify listening data (CSV files).
-   - Ensure your data follows the required format.
-
-5. **Create a Spotify Playlist:**
+4. **Create a Spotify Playlist:**
    - Ensure you have your Spotify Developer credentials (client ID, client secret, and redirect URI).
    - Run the `create_spotify_playlist.py` script to generate a playlist from the recommendations:
      ```bash
@@ -124,7 +94,7 @@ The motivation for this project stemmed from dissatisfaction with Spotify's defa
      ```
    - Log in when prompted to authorize Spotify access.
 
-6. **View Results:**
+5. **View Results:**
    - Explore the EDA visualizations and generated insights.
    - Enjoy your personalized Spotify playlist.
 
@@ -137,7 +107,7 @@ The motivation for this project stemmed from dissatisfaction with Spotify's defa
    - Gini Coefficient and cumulative percentage plots to evaluate listening diversity.
 
 2. **Recommendations:**
-   - A CSV file (`personalized_recommendations.csv`) containing 20 tracks personalized to your listening habits.
+   - A CSV file (`personalized_playlist.csv`) containing 20 tracks personalized to your listening habits.
 
 3. **Spotify Playlist:**
    - An automatically created playlist in your Spotify account, titled **"Personalized Playlist"**.
@@ -170,3 +140,4 @@ The motivation for this project stemmed from dissatisfaction with Spotify's defa
 ## **License**
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
